@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_euro_office_odoo_documents,euro_office.odoo.documents,model_euro_office_odoo_documents,base.group_user,1,1,1,1
+access_euro_office_odoo_documents_access_user,euro_office.odoo.documents.access.user,model_euro_office_odoo_documents_access_user,base.group_user,1,1,1,1
+access_euro_office_odoo_documents_access,euro_office.odoo.documents.access,model_euro_office_odoo_documents_access,base.group_user,1,1,1,1
