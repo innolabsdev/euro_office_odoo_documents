@@ -45,12 +45,17 @@ class EuroOfficeDocuments_Connector(http.Controller):
                 "mimetype": file_utils.get_mime_by_ext(supported_format),
                 "raw": file_data,
             }
-            # Odoo 19 Documents passes special folder selectors as strings
-            # ("MY", "COMPANY", "RECENT", "SHARED", "TRASH"), not numeric ids.
-            # Only a real numeric folder maps to folder_id; otherwise the file
-            # is created in the user's own drive (no folder).
+            # Odoo 19 Documents passes folder selectors as strings, not ids.
+            # Resolve them the way the native model defines placement:
+            #   numeric   -> that folder
+            #   "COMPANY" -> company root (folder_id=False, owner_id=False)
+            #   "MY"/other-> user's drive (folder_id=False, owner defaults to
+            #                the current user via create())
             if str(folder_id).isdigit():
                 data["folder_id"] = int(folder_id)
+            elif folder_id == "COMPANY":
+                data["folder_id"] = False
+                data["owner_id"] = False
 
             document = request.env["documents.document"].create(data)
             request.env["euro_office.odoo.documents.access"].create(
