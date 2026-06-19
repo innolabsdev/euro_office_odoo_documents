@@ -44,8 +44,13 @@ class EuroOfficeDocuments_Connector(http.Controller):
                 "name": title + "." + supported_format,
                 "mimetype": file_utils.get_mime_by_ext(supported_format),
                 "raw": file_data,
-                "folder_id": int(folder_id),
             }
+            # Odoo 19 Documents passes special folder selectors as strings
+            # ("MY", "COMPANY", "RECENT", "SHARED", "TRASH"), not numeric ids.
+            # Only a real numeric folder maps to folder_id; otherwise the file
+            # is created in the user's own drive (no folder).
+            if str(folder_id).isdigit():
+                data["folder_id"] = int(folder_id)
 
             document = request.env["documents.document"].create(data)
             request.env["euro_office.odoo.documents.access"].create(

@@ -6,7 +6,7 @@
     "author": "Innolabs.dev",
     "website": "https://github.com/Euro-Office/euro_office_odoo",
     "category": "Productivity",
-    "version": "19.0.6.2.1",
+    "version": "19.0.6.2.2",
     "depends": ["euro_office_odoo", "documents"],
     # always loaded
     "data": [
